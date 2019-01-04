@@ -302,6 +302,11 @@ module.exports = function(webpackEnv) {
 			rules: [
 				{ test: /\.html$/, loader: "raw-loader" },
 				{
+					test: /.scss/,
+					enforce: "pre",
+					loader: "import-glob-loader"
+				},
+				{
 					test: /\.(gif|png|jpe?g|svg)$/i,
 					use: [
 						"file-loader",
