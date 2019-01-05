@@ -304,11 +304,11 @@ module.exports = function(webpackEnv) {
 			rules: [
 				{
 					test: /jquery-mousewheel/,
-					loader: "imports?define=>false&this=>window"
+					loader: "imports-loader?define=>false&this=>window"
 				},
 				{
 					test: /malihu-custom-scrollbar-plugin/,
-					loader: "imports?define=>false&this=>window"
+					loader: "imports-loader?define=>false&this=>window"
 				},
 				{ test: /\.html$/, loader: "raw-loader" },
 				{
