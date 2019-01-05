@@ -276,7 +276,9 @@ module.exports = function(webpackEnv) {
 				// https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
 				"react-native": "react-native-web",
 				$: "jquery/src/jquery",
-				_: "lodash/lodash"
+				_: "lodash/lodash",
+				images: path.resolve(__dirname, "src/legacy/source/assets/images"),
+				icons: path.resolve(__dirname, "src/legacy/source/assets/icons")
 			},
 			plugins: [
 				// Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -300,24 +302,19 @@ module.exports = function(webpackEnv) {
 		module: {
 			strictExportPresence: true,
 			rules: [
+				{
+					test: /jquery-mousewheel/,
+					loader: "imports?define=>false&this=>window"
+				},
+				{
+					test: /malihu-custom-scrollbar-plugin/,
+					loader: "imports?define=>false&this=>window"
+				},
 				{ test: /\.html$/, loader: "raw-loader" },
 				{
 					test: /.scss/,
 					enforce: "pre",
 					loader: "import-glob-loader"
-				},
-				{
-					test: /\.(gif|png|jpe?g|svg)$/i,
-					use: [
-						"file-loader",
-						{
-							loader: "image-webpack-loader",
-							options: {
-								bypassOnDebug: true, // webpack@1.x
-								disable: true // webpack@2.x and newer
-							}
-						}
-					]
 				},
 				// Disable require.ensure as it's not a standard language feature.
 				{ parser: { requireEnsure: false } },
@@ -540,7 +537,9 @@ module.exports = function(webpackEnv) {
 		plugins: [
 			new webpack.ProvidePlugin({
 				$: "jquery",
-				jQuery: "jquery"
+				jQuery: "jquery",
+				"window.$": "jquery",
+				"window.jQuery": "jquery"
 			}),
 			// Generates an `index.html` file with the <script> injected.
 			new HtmlWebpackPlugin(
